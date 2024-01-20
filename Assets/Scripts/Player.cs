@@ -13,45 +13,42 @@ public class Player : MonoBehaviour
     [SerializeField] private MyButton _downArrowBtn;
     private float _horizontal_movement = 0f;
     private float _vertical_movement = 0f;
-    [SerializeField] float _jumpHeight = 1f;
+    [SerializeField] float _jumpHeight = 5.0f;
 
     private void Awake()
     {
         if (_rightArrowBtn != null)
         {
-            _rightArrowBtn.OnPointerDownEvent.AddListener(()=> MoveHorizontal(1));
-            _rightArrowBtn.OnPointerUpEvent.AddListener(()=> MoveHorizontal(0));
+            _rightArrowBtn.OnPointerDownEvent.AddListener(()=> Move(1, ref _horizontal_movement));
+            _rightArrowBtn.OnPointerUpEvent.AddListener(()=> Move(0, ref _horizontal_movement));
         }
         if (_leftArrowBtn != null)
         {
-            _leftArrowBtn.OnPointerDownEvent.AddListener(()=> MoveHorizontal(-1));
-            _leftArrowBtn.OnPointerUpEvent.AddListener(() => MoveHorizontal(0));
+            _leftArrowBtn.OnPointerDownEvent.AddListener(()=> Move(-1, ref _horizontal_movement));
+            _leftArrowBtn.OnPointerUpEvent.AddListener(() => Move(0, ref _horizontal_movement));
         }
         if (_upArrowBtn != null)
         {
-            _upArrowBtn.OnPointerDownEvent.AddListener(Jump);
+            _upArrowBtn.OnPointerDownEvent.AddListener(() => Move(1, ref _vertical_movement));
+            _upArrowBtn.OnPointerUpEvent.AddListener(() => Move(0, ref _vertical_movement));
         }
         if (_downArrowBtn != null)
         {
-            _downArrowBtn.OnPointerDownEvent.AddListener(() => MoveVertical(-1));
-            _downArrowBtn.OnPointerUpEvent.AddListener(() => MoveVertical(-1));
+            _downArrowBtn.OnPointerDownEvent.AddListener(() => Move(-1, ref _vertical_movement));
+            _downArrowBtn.OnPointerUpEvent.AddListener(() => Move(0, ref _vertical_movement));
         }
     }
 
-    private void MoveHorizontal(float direction)
+    private void Move(float direction, ref float movement)
     {
-        _horizontal_movement = _horizontal_movement == 0 ? direction : 0f;   
-    }
-    private void MoveVertical(float direction)
-    {
-        _vertical_movement = _vertical_movement == 0 ? direction : 0f;
+        movement = movement == 0 ? direction : 0f;
     }
 
+    //public void Jump()
+    //{
+    //    GetComponent<Rigidbody2D>().AddForce(new Vector3(0, _jumpHeight, 0), ForceMode2D.Impulse);
+    //}
 
-    public void Jump()
-    {
-        GetComponent<Rigidbody2D>().AddForce(new Vector3(0, _jumpHeight * 0.2f, 0), ForceMode2D.Impulse);
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -61,9 +58,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Rigidbody2D>().AddForce(new Vector3(_vertical_movement * Time.deltaTime * _moveSpeed, 0, 0),
-            ForceMode2D.Impulse);
-
         var posChangeX = _horizontal_movement * _moveSpeed * Time.deltaTime;
         var posChangeY = _vertical_movement * _moveSpeed * Time.deltaTime;
         transform.position += new Vector3(posChangeX, posChangeY, 0);
