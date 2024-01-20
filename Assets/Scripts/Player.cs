@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private MyButton _downArrowBtn;
     private float _horizontal_movement = 0f;
     private float _vertical_movement = 0f;
-    [SerializeField] float _jumpHeight = 5.0f;
+    //[SerializeField] float _jumpHeight = 5.0f;
 
     private void Awake()
     {
