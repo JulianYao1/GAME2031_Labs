@@ -13,7 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] private MyButton _downArrowBtn;
     private float _horizontal_movement = 0f;
     private float _vertical_movement = 0f;
-    [SerializeField] float _jumpHeight = 1f;
+    [SerializeField] float _jumpHeight = 5f;
+
+    [SerializeField] private GameObject spawnPoint;
 
     private void Awake()
     {
@@ -50,7 +52,7 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        GetComponent<Rigidbody2D>().AddForce(new Vector3(0, _jumpHeight * 0.2f, 0), ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().AddForce(new Vector3(0, _jumpHeight, 0), ForceMode2D.Impulse);
     }
     // Start is called before the first frame update
     void Start()
@@ -61,11 +63,34 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Rigidbody2D>().AddForce(new Vector3(_vertical_movement * Time.deltaTime * _moveSpeed, 0, 0),
-            ForceMode2D.Impulse);
+        //GetComponent<Rigidbody2D>().AddForce(new Vector3(_moveSpeed * Time.deltaTime * _moveSpeed, 0, 0),
+        //    ForceMode2D.Impulse);
 
         var posChangeX = _horizontal_movement * _moveSpeed * Time.deltaTime;
         var posChangeY = _vertical_movement * _moveSpeed * Time.deltaTime;
         transform.position += new Vector3(posChangeX, posChangeY, 0);
+    }
+
+    private void OnCollisionionEnter2D(Collision2D collision)
+    {
+        GameObject other;
+        //Rigidbody2D otherRigidbody;
+
+        if (collision.otherRigidbody.gameObject.name == "Player")
+        {
+            other = collision.rigidbody.gameObject;
+            //otherRigidbody = collision.rigidbody;
+        }
+        else
+        {
+            other = collision.otherRigidbody.gameObject;
+            //otherRigidbody = collision.otherRigidbody;
+        }
+        other.GetComponent<ISpawnable>().Respawn();
+        //other.gameObject.transform.position = spawnPoint.transform.position;
+        //otherRigidbody.velocity = Vector3.zero;
+
+
+       
     }
 }
