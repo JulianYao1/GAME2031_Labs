@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class Player : MonoBehaviour
     private float _vertical_movement = 0f;
     [SerializeField] float _jumpHeight = 5f;
 
-    [SerializeField] private GameObject spawnPoint;
+    //[SerializeField] private GameObject spawnPoint;
+
+    [SerializeField] private TMP_Text pointCounter;
+
+    private int points = 0;
 
     private void Awake()
     {
@@ -71,7 +76,7 @@ public class Player : MonoBehaviour
         transform.position += new Vector3(posChangeX, posChangeY, 0);
     }
 
-    private void OnCollisionionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject other;
         //Rigidbody2D otherRigidbody;
@@ -90,7 +95,8 @@ public class Player : MonoBehaviour
         //other.gameObject.transform.position = spawnPoint.transform.position;
         //otherRigidbody.velocity = Vector3.zero;
 
-
+        points++;
+        pointCounter.text = "Points: " + points;
        
     }
 }
