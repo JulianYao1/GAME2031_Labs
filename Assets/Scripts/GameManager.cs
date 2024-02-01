@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private Stack<ICommand> _CommandBuffer = new Stack<ICommand>();
+    private Stack<ICommand> _UndoBuffer = new Stack<ICommand>();
 
     // Singleton
     private void Awake()
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         c.Execute();
         _CommandBuffer.Push(c);
+        _UndoBuffer.Clear();
     }
 
     public void Undo()
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
         {
             ICommand c = _CommandBuffer.Pop();
             c.Undo();
+            _UndoBuffer.Push(c);
         }
     }
 
@@ -48,6 +51,16 @@ public class GameManager : MonoBehaviour
     public void UndoAll()
     {
         StartCoroutine(UndoAllCo());
+    }
+
+    public void Redo()
+    {
+        if (_UndoBuffer.Count > 0)
+        {
+            ICommand c = _UndoBuffer.Pop();
+            c.Execute();
+            _CommandBuffer.Push(c);
+        }
     }
 
     // Start is called before the first frame update

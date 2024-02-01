@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
             c.AddStep(new Rotate(transform));
             c.AddStep(new MoveLeft(transform));           
             c.AddStep(new MoveRight(transform));
+            c.AddStep(new ChangeColour(GetComponent<Renderer>()));
             c.AddStep(new ScaleDown(transform));
             c.AddStep(new MoveRight(transform));
             c.AddStep(new MoveLeft(transform));
@@ -66,6 +67,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             gm.UndoAll();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gm.Redo();
         }
     }
 }
