@@ -35,6 +35,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator UndoAllCo()
+    {
+        while (_CommandBuffer.Count > 0)
+        {
+            ICommand c = _CommandBuffer.Pop();
+            c.Undo();
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
+
+    public void UndoAll()
+    {
+        StartCoroutine(UndoAllCo());
+    }
+
     // Start is called before the first frame update
     void Start()
     {
