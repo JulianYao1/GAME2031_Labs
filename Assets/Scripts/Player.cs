@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
+<<<<<<< Updated upstream
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private MyButton _rightArrowBtn;
     [SerializeField] private MyButton _leftArrowBtn;
@@ -51,6 +52,18 @@ public class Player : MonoBehaviour
     public void Jump()
     {
         GetComponent<Rigidbody2D>().AddForce(new Vector3(0, _jumpHeight * 0.2f, 0), ForceMode2D.Impulse);
+=======
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _animParamSpeed;
+    [SerializeField] private string _animParamIsWalking;
+
+    private int _speedHash, _isWalking;
+
+    private void Awake()
+    {
+        _speedHash = Animator.StringToHash(_animParamSpeed);
+        _isWalking = Animator.StringToHash(_animParamIsWalking);
+>>>>>>> Stashed changes
     }
     // Start is called before the first frame update
     void Start()
@@ -64,8 +77,69 @@ public class Player : MonoBehaviour
         GetComponent<Rigidbody2D>().AddForce(new Vector3(_vertical_movement * Time.deltaTime * _moveSpeed, 0, 0),
             ForceMode2D.Impulse);
 
+<<<<<<< Updated upstream
         var posChangeX = _horizontal_movement * _moveSpeed * Time.deltaTime;
         var posChangeY = _vertical_movement * _moveSpeed * Time.deltaTime;
         transform.position += new Vector3(posChangeX, posChangeY, 0);
+=======
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ICommand c = new MoveLeft(transform);
+            gm.AddCommand(c);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ICommand c = new MoveDown(transform);
+            gm.AddCommand(c);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ICommand c = new MoveUp(transform);
+            gm.AddCommand(c);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ICommand c = new ChangeColour(GetComponent<Renderer>());
+            gm.AddCommand(c);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ComboCommand c = new ComboCommand(this);
+            c.AddStep(new MoveRight(transform));
+            c.AddStep(new MoveRight(transform));
+            c.AddStep(new MoveLeft(transform));
+            c.AddStep(new Rotate(transform));
+            c.AddStep(new MoveLeft(transform));           
+            c.AddStep(new MoveRight(transform));
+            //c.AddStep(new ChangeColour(GetComponent<Renderer>()));
+            c.AddStep(new ScaleDown(transform));
+            c.AddStep(new MoveRight(transform));
+            c.AddStep(new MoveLeft(transform));
+            c.AddStep(new MoveLeft(transform));
+            c.AddStep(new MoveLeft(transform));
+            c.AddStep(new MoveLeft(transform));
+            c.AddStep(new ScaleUp(transform));
+            gm.AddCommand(c);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            gm.Undo();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            gm.UndoAll();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gm.Redo();
+        }
+>>>>>>> Stashed changes
     }
 }
