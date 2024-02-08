@@ -39,6 +39,12 @@ public class Player : MonoBehaviour
             gm.AddCommand(c);
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ICommand c = new ChangeColour(GetComponent<Renderer>());
+            gm.AddCommand(c);
+        }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             ComboCommand c = new ComboCommand(this);
