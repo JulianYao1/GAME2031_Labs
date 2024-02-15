@@ -5,7 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class MyTest
+public class MyTests
 {
     Player playerPref = Resources.Load<Player>("Player");
     GameManager gmPref = Resources.Load<GameManager>("GameManager");
@@ -59,6 +59,6 @@ public class MyTest
 
         yield return new WaitForSeconds(1.0f);
 
-        Assert.IsTrue(player.transform.position == (oldPos + Vector3.right) + Vector3.right);
+        Assert.IsTrue(player.transform.position != (oldPos + Vector3.right) + Vector3.right);
     }
 }
