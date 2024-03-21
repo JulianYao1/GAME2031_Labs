@@ -1,0 +1,56 @@
+{
+    "name": "Input Mapping Context",
+    "maps": [
+        {
+            "name": "MappingContext",
+            "id": "76e0a21b-6eca-41d2-a284-4ae9ac2fdd0f",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "22561794-4b46-45eb-b497-97aa403094a0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "A / D",
+                    "id": "99e7c680-48cf-4357-9c64-938533724470",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "3b8db657-2367-4674-b087-e39418cd43a5",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e1b9912c-bd7b-4be0-85d7-b3fb6994f0c4",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
