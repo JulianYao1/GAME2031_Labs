@@ -7,6 +7,9 @@ public class PlayerScripts : MonoBehaviour
 {
     [SerializeField]
     InputAction foo;
+    [SerializeField] float moveSpeed = 3;
+    [SerializeField] Vector2 moveDirection;
+    [SerializeField] SpriteRenderer spriteImage;
 
     // Start is called before the first frame update
     void Start()
@@ -18,9 +21,7 @@ public class PlayerScripts : MonoBehaviour
                 switch (change)
                 {
                     case InputActionChange.ActionStarted:
-                        break;
                     case InputActionChange.ActionPerformed:
-                        break;
                     case InputActionChange.ActionCanceled:
                         Debug.Log($"{((InputAction)obj).name}:{change}");
                         break;
@@ -31,15 +32,28 @@ public class PlayerScripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var v = foo.ReadValue<Vector2>();
+        //v = foo.ReadValue<Vector2>();
+
+        Vector2 inputVector = foo.ReadValue<Vector2>();
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+
+        if (moveDirection.x > 0)
+        {
+            Quaternion rotationRight = Quaternion.Euler(0f, 0f, 0f);
+            spriteImage.transform.rotation = rotationRight;
+        }
+        else if (moveDirection.x < 0)
+        {
+            Quaternion rotationLeft = Quaternion.Euler(0f, 180f, 0f);
+            spriteImage.transform.rotation = rotationLeft;
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         var a = context.action;
-        var v = a.ReadValue<Vector2>();
+        moveDirection = a.ReadValue<Vector2>();
         Debug.Log("V");
-        transform.Translate(v * Time.deltaTime);
     }
     
 }
