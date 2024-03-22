@@ -5,37 +5,36 @@ using UnityEngine.InputSystem;
 
 public class PlayerScripts : MonoBehaviour
 {
-    [SerializeField]
-    InputAction foo;
+    //[SerializeField] InputAction foo;
     [SerializeField] float moveSpeed = 3;
     [SerializeField] Vector2 moveDirection;
+    //[SerializeField] Vector2 mousePosition;
     [SerializeField] SpriteRenderer spriteImage;
+    [SerializeField] GameObject objectToClone;
+    [SerializeField] private Camera mainCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        foo.Enable();
-        InputSystem.onActionChange +=
-            (obj, change) =>
-            {
-                switch (change)
-                {
-                    case InputActionChange.ActionStarted:
-                    case InputActionChange.ActionPerformed:
-                    case InputActionChange.ActionCanceled:
-                        Debug.Log($"{((InputAction)obj).name}:{change}");
-                        break;
-                }
-            };
+        //foo.Enable();
+        //InputSystem.onActionChange +=
+        //    (obj, change) =>
+        //    {
+        //        switch (change)
+        //        {
+        //            case InputActionChange.ActionStarted:
+        //            case InputActionChange.ActionPerformed:
+        //            case InputActionChange.ActionCanceled:
+        //                Debug.Log($"{((InputAction)obj).name}:{change}");
+        //                break;
+        //        }
+        //    };
     }
 
     // Update is called once per frame
     void Update()
     {
-        //v = foo.ReadValue<Vector2>();
-
-        Vector2 inputVector = foo.ReadValue<Vector2>();
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        transform.Translate(moveSpeed * Time.deltaTime * moveDirection);
 
         if (moveDirection.x > 0)
         {
@@ -53,7 +52,14 @@ public class PlayerScripts : MonoBehaviour
     {
         var a = context.action;
         moveDirection = a.ReadValue<Vector2>();
-        Debug.Log("V");
     }
-    
+
+    public void Fire()
+    {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCamera.nearClipPlane));
+
+        GameObject spawnedObject = Instantiate(objectToClone);
+        spawnedObject.transform.position = worldPosition;
+    }
 }

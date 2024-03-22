@@ -25,12 +25,12 @@
                 },
                 {
                     "name": "Fire",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "37bb1265-b20d-4c45-9296-595e9e8ce7dd",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
